@@ -6,6 +6,8 @@ import com.example.template_spring.Repository.UserRepository;
 
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -24,6 +26,13 @@ public class UserService {
     user.setPassword(userDTO.getPassword());
     userRepository.save(user);
     return userDTO;
+  }
+
+  public List<UserDTO> getAllUsers() {
+    List<User> users = userRepository.findAll();
+    return users.stream()
+                .map(user -> new UserDTO(user.getId(), user.getUsername(), user.getPassword()))
+                .toList();
   }
   public UserDTO updateUser(String id, UserDTO userDTO) {
     User user = userRepository.findById(id).orElse(null);

@@ -26,5 +26,14 @@ public class User
   @Column(name = "password",nullable = false)
   private String password;
 
+  @Column(name="NID", nullable = true)
+  private String nid;
+
+  @Column(name="email", nullable = false)
+  private String email;
+
+  @Column(name="type", nullable = false)
+  private String type;
+
 
 }
