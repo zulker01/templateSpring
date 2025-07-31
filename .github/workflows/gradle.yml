@@ -50,12 +50,12 @@ jobs:
       # Step 4: Build the Docker image
     - name: Build Docker image
       run: |
-        docker build -t ${{ secrets.DOCKER_USERNAME }}/your-app-name:${{ github.sha }} .
+        docker build -t ${{ secrets.DOCKER_USERNAME }}/template_spring:v2_ci_cd .
 
       # Step 5: Push the Docker image to Docker Hub
     - name: Push Docker image to Docker Hub
       run: |
-        docker push ${{ secrets.DOCKER_USERNAME }}/your-app-name:${{ github.sha }}  
+        docker push ${{ secrets.DOCKER_USERNAME }}/template_spring:v2_ci_cd  
 
     # NOTE: The Gradle Wrapper is the default and recommended way to run Gradle (https://docs.gradle.org/current/userguide/gradle_wrapper.html).
     # If your project does not have the Gradle Wrapper configured, you can use the following configuration to run Gradle with a specified version.
