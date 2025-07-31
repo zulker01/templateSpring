@@ -8,7 +8,7 @@ public class TemplateSpringApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(TemplateSpringApplication.class, args);
-		System.out.println("Hello World test github actions v1");
+		System.out.println("Hello World test github actions v2 ci cd done");
 	}
 
 }
