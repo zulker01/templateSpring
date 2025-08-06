@@ -34,10 +34,7 @@ public class UserService implements UserDetailsService {
 
   public UserDTO getUserById(String id) {
     User user =  userRepository.findById(id).orElse(null);
-    if (user != null) {
-      return new UserDTO(user.getId(), user.getUsername(), user.getPassword());
-    }
-    return null;
+    return new UserDTO(user.getId(), user.getUsername(),user.getPassword());
   }
   public UserDTO createUser(UserDTO userDTO) {
     User user = new User();
