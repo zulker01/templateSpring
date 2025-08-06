@@ -3,8 +3,16 @@ package com.example.template_spring.Service;
 import com.example.template_spring.DTO.UserDTO;
 import com.example.template_spring.Entity.User;
 import com.example.template_spring.Repository.UserRepository;
+import com.example.template_spring.Service.CustomUserDetails;
 
 import org.springframework.stereotype.Service;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import java.util.Collection;
+import java.util.Collections;
 
 import java.util.List;
 
@@ -13,13 +21,23 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @RequiredArgsConstructor
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
   private final UserRepository userRepository;
-  private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+  private final BCryptPasswordEncoder passwordEncoder ;
+
+  @Override
+  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    User user = userRepository.findByUsername(username)
+        .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
+    return new CustomUserDetails(user);
+  }
 
   public UserDTO getUserById(String id) {
     User user =  userRepository.findById(id).orElse(null);
-    return new UserDTO(user.getId(), user.getUsername(),user.getPassword());
+    if (user != null) {
+      return new UserDTO(user.getId(), user.getUsername(), user.getPassword());
+    }
+    return null;
   }
   public UserDTO createUser(UserDTO userDTO) {
     User user = new User();
@@ -48,5 +66,4 @@ public class UserService {
   public void deleteUser(String id) {
     userRepository.deleteById(id);
   }
-
 }
