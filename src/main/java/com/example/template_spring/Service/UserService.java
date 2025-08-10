@@ -11,6 +11,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -23,13 +25,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @Service
 public class UserService implements UserDetailsService {
   private final UserRepository userRepository;
-  private final BCryptPasswordEncoder passwordEncoder ;
+  private final BCryptPasswordEncoder passwordEncoder= new BCryptPasswordEncoder();
 
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
     User user = userRepository.findByUsername(username)
         .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
-    return new CustomUserDetails(user);
+    return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), true, true, true, true,new ArrayList<>());
   }
 
   public UserDTO getUserById(String id) {
