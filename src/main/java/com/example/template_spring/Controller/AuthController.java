@@ -3,6 +3,7 @@ package com.example.template_spring.Controller;
 
 import com.example.template_spring.DTO.LoginRequestDTO;
 import com.example.template_spring.DTO.LoginResponseDTO;
+import com.example.template_spring.DTO.ResponseModelDTO;
 import com.example.template_spring.Service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,10 +18,10 @@ public class AuthController {
     private final AuthService authService;
     
     @PostMapping("/login")
-    public LoginResponseDTO login(@RequestBody LoginRequestDTO loginRequest) {
+    public ResponseEntity<ResponseModelDTO<LoginResponseDTO>> login(@RequestBody LoginRequestDTO loginRequest) {
         try {
             LoginResponseDTO response = authService.login(loginRequest);
-            return response;
+            return ResponseEntity.ok(ResponseModelDTO.success(response, "Login successful"));
         } catch (Exception e) {
             // This will be caught by GlobalExceptionHandler
             throw new RuntimeException("Login failed: " + e.getMessage());

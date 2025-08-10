@@ -28,6 +28,6 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ResponseModelDTO<Object>> handleGeneral(Exception ex) {
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(ResponseModelDTO.error("Something went wrong", "INTERNAL_ERROR"));
+                .body(ResponseModelDTO.error(ex.getMessage(), "INTERNAL_ERROR"));
     }
 } 
