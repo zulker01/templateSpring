@@ -16,9 +16,7 @@ public class WebConfig implements WebMvcConfigurer {
     // Allow all origins (you can restrict it to specific origins)
     registry.addMapping("/**")
             .allowedOrigins(frontendUrl)  // Add your frontend URL here
-            .allowedMethods("GET", "POST", "PUT", "DELETE")  // Allow the desired HTTP methods
-            .allowedHeaders("*")  // Allow all headers
-            .allowCredentials(true)  // Allow credentials (cookies, sessions, etc.)
+            .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD")
             .maxAge(3600);  // Cache pre-flight response for 1 hour
   }
 }
