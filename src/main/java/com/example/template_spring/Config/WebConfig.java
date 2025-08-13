@@ -21,6 +21,8 @@ public class WebConfig implements WebMvcConfigurer {
             .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD")
             .maxAge(3600);  // Cache pre-flight response for 1 hour
   }
+  //gpt suggested this bean to be in security config , but it created a circular dependency issue
+  // so moved it to web config
   @Bean
   public PasswordEncoder passwordEncoder() {
     return new BCryptPasswordEncoder();

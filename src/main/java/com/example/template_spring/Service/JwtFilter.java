@@ -33,13 +33,18 @@ public class JwtFilter extends OncePerRequestFilter {
             jwt = authHeader.substring(7);
             username = jwtUtils.extractUsername(jwt);
         }
-
+        // Check if user is not already authenticated
+        // Load user details and validate JWT
+        // If valid, create an Authentication token and set it in the SecurityContext
+        // SecurityContextHolder stores security info in a ThreadLocal, so this authentication is specific to the current thread/request
+        // this allows to get info about this user in the rest of the application
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = userService.loadUserByUsername(username);
             if (jwtUtils.validateToken(jwt, userDetails)) {
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities());
-//                authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                // Optionally, set request-specific details (IP, session ID) using WebAuthenticationDetailsSource for logging/auditing
+                authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             }
         }
