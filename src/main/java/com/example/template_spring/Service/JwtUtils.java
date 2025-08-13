@@ -13,7 +13,8 @@ import java.util.function.Function;
 
 @Component
 public class JwtUtils {
-    private static final String SECRET_KEY = "your_secret_key_here";
+    private static final String SECRET_KEY = "yoursecretkeyhereitmusbeof256bitelseitisweakkeyidontneedareasontowinimustwin"; // no underscore in b64
+
     private static final long EXPIRATION_TIME = 1000 * 60 * 60 * 10; // 10 hours
 
     public String extractUsername(String token) {

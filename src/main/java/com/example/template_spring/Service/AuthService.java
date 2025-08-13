@@ -5,11 +5,14 @@ import com.example.template_spring.DTO.LoginResponseDTO;
 import com.example.template_spring.Entity.User;
 import com.example.template_spring.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,7 +21,8 @@ public class AuthService {
     
     private final UserRepository userRepository;
     private final JwtUtils jwtUtils;
-    private final BCryptPasswordEncoder passwordEncoder= new BCryptPasswordEncoder();
+    @Autowired
+    private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     
     public LoginResponseDTO login(LoginRequestDTO loginRequest) {

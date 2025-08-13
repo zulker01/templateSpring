@@ -5,6 +5,7 @@ import com.example.template_spring.Entity.User;
 import com.example.template_spring.Repository.UserRepository;
 import com.example.template_spring.Service.CustomUserDetails;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -12,6 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.List;
 
+import io.jsonwebtoken.security.Password;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -19,7 +21,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @Service
 public class UserService implements UserDetailsService {
   private final UserRepository userRepository;
-  private final BCryptPasswordEncoder passwordEncoder= new BCryptPasswordEncoder();
+  private final PasswordEncoder passwordEncoder;
 
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
