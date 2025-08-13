@@ -22,20 +22,32 @@ import lombok.RequiredArgsConstructor;
 public class CRUD_Controller {
   private final UserService userService;
 
-  @GetMapping("/api/hello")
-  public ResponseEntity<ResponseModelDTO<String>> hello() {
-    return ResponseEntity.ok(ResponseModelDTO.success("Hello, World!", "Greeting message"));
-  }
+@GetMapping("/api/hello")
+public ResponseEntity<ResponseModelDTO<String>> hello() {
+    try {
+        return ResponseEntity.ok(ResponseModelDTO.success("Hello, World!", "Greeting message"));
+    } catch (Exception e) {
+        throw new RuntimeException("An error occurred: " + e.getMessage());
+    }
+}
 
-  @PostMapping("/api/user")
-  public ResponseEntity<ResponseModelDTO<UserDTO>> createUser(@RequestBody @Valid UserDTO userDTO) {
-    UserDTO createdUser = userService.createUser(userDTO);
-    return ResponseEntity.ok(ResponseModelDTO.success(createdUser, "User created successfully"));
-  }
+@PostMapping("/api/user")
+public ResponseEntity<ResponseModelDTO<UserDTO>> createUser(@RequestBody @Valid UserDTO userDTO) {
+    try {
+        UserDTO createdUser = userService.createUser(userDTO);
+        return ResponseEntity.ok(ResponseModelDTO.success(createdUser, "User created successfully"));
+    } catch (Exception e) {
+      throw new RuntimeException("An error occurred: " + e.getMessage());
+    }
+}
 
-  @GetMapping("/api/users/all")
-  public ResponseEntity<ResponseModelDTO<List<UserDTO>>> getAllUser() {
-    List<UserDTO> users = userService.getAllUsers();
-    return ResponseEntity.ok(ResponseModelDTO.success(users, "Users retrieved successfully"));
-  }
+@GetMapping("/api/users/all")
+public ResponseEntity<ResponseModelDTO<List<UserDTO>>> getAllUser() {
+    try {
+        List<UserDTO> users = userService.getAllUsers();
+        return ResponseEntity.ok(ResponseModelDTO.success(users, "Users retrieved successfully"));
+    } catch (Exception e) {
+      throw new RuntimeException("An error occurred: " + e.getMessage());
+    }
+}
 }

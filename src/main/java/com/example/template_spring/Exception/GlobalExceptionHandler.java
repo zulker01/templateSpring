@@ -7,6 +7,12 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
+import java.security.SignatureException;
+
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.MalformedJwtException;
+
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -15,5 +21,11 @@ public class GlobalExceptionHandler {
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(ResponseModelDTO.error(ex.getMessage(), "INTERNAL_ERROR"));
+    }
+    @ExceptionHandler({SignatureException.class, ExpiredJwtException.class, MalformedJwtException.class})
+    public ResponseEntity<ResponseModelDTO<Object>> handleJwtExceptions(Exception ex) {
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .body(ResponseModelDTO.error(ex.getMessage(), "INVALID_JWT"));
     }
 } 
