@@ -1,0 +1,48 @@
+name: CI/CD for Spring Boot Docker App
+
+on:
+  push:
+    branches:
+      - dev  # Trigger on push to the main branch
+  pull_request:
+    branches:
+      - dev  # Trigger on pull request to the main branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # Use the latest Ubuntu runner for the build
+
+    steps:
+    # Step 1: Checkout the code
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    # Step 2: Set up Docker
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+    # Step 3: Log in to Docker Hub
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    # Step 4: Build the Docker image
+    - name: Build Docker image
+      run: |
+        docker build -t ${{ secrets.DOCKER_USERNAME }}/your-app-name:${{ github.sha }} .
+
+    # Step 5: Push the Docker image to Docker Hub
+    - name: Push Docker image to Docker Hub
+      run: |
+        docker push ${{ secrets.DOCKER_USERNAME }}/your-app-name:${{ github.sha }}
+
+    # Step 6: (Optional) Deploy to Render or another platform
+    # Uncomment and configure the below step if you want to deploy the image to Render.
+    # - name: Deploy to Render
+    #   run: |
+    #     curl -X POST \
+    #       -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
+    #       -d '{"serviceId": "your-render-service-id"}' \
+    #       https://api.render.com/deploy

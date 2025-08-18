@@ -9,11 +9,13 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @RequiredArgsConstructor
 @Service
 public class UserService {
   private final UserRepository userRepository;
+  private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
   public UserDTO getUserById(String id) {
     User user =  userRepository.findById(id).orElse(null);
@@ -23,7 +25,7 @@ public class UserService {
     User user = new User();
     user.setId(userDTO.getId());
     user.setUsername(userDTO.getUsername());
-    user.setPassword(userDTO.getPassword());
+    user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
     userRepository.save(user);
     return userDTO;
   }
@@ -38,7 +40,7 @@ public class UserService {
     User user = userRepository.findById(id).orElse(null);
     if (user != null) {
       user.setUsername(userDTO.getUsername());
-      user.setPassword(userDTO.getPassword());
+      user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
       userRepository.save(user);
     }
     return userDTO;
