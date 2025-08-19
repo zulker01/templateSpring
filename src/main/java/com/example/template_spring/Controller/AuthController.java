@@ -27,19 +27,4 @@ public class AuthController {
             throw new RuntimeException("Login failed: " + e.getMessage());
         }
     }
-    
-    @PostMapping("/validate")
-    public Boolean validateToken(@RequestHeader("Authorization") String token) {
-        try {
-            // Remove "Bearer " prefix if present
-            if (token.startsWith("Bearer ")) {
-                token = token.substring(7);
-            }
-            
-            // You can add token validation logic here if needed
-            return true;
-        } catch (Exception e) {
-            throw new RuntimeException("Token validation failed: " + e.getMessage());
-        }
-    }
 } 
