@@ -31,7 +31,7 @@ public ResponseEntity<ResponseModelDTO<String>> hello() {
     }
 }
 
-@PostMapping("/api/user")
+@PostMapping("/api/auth/user/register")
 public ResponseEntity<ResponseModelDTO<UserDTO>> createUser(@RequestBody @Valid UserDTO userDTO) {
     try {
         UserDTO createdUser = userService.createUser(userDTO);
