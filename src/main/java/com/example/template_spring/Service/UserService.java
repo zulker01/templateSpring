@@ -32,13 +32,15 @@ public class UserService implements UserDetailsService {
 
   public UserDTO getUserById(String id) {
     User user =  userRepository.findById(id).orElse(null);
-    return new UserDTO(user.getId(), user.getUsername(),user.getPassword());
+    return new UserDTO(user.getId(), user.getUsername(),user.getPassword(), user.getEmail(), user.getType());
   }
   public UserDTO createUser(UserDTO userDTO) {
     User user = new User();
     user.setId(userDTO.getId());
     user.setUsername(userDTO.getUsername());
     user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+    user.setEmail(userDTO.getEmail());
+    user.setType(userDTO.getType());
     userRepository.save(user);
     return userDTO;
   }
@@ -46,7 +48,7 @@ public class UserService implements UserDetailsService {
   public List<UserDTO> getAllUsers() {
     List<User> users = userRepository.findAll();
     return users.stream()
-                .map(user -> new UserDTO(user.getId(), user.getUsername(), user.getPassword()))
+                .map(user -> new UserDTO(user.getId(), user.getUsername(),user.getPassword(), user.getEmail(), user.getType()))
                 .toList();
   }
   public UserDTO updateUser(String id, UserDTO userDTO) {
